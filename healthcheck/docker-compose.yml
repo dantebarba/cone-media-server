@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  nas-health-status:
+    image: dantebarba/whatsmyhealth
+    container_name: nas-health-status
+    restart: unless-stopped
+    environment:
+      CHECK_URL: $CHECK_URL
+      TZ: 'America/Argentina/Buenos_Aires'
+      CRON: '0,30 * * * *'
+      LOG_LEVEL: '7'
