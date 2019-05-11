@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  nas-health-status:
+  healthcheck:
     image: dantebarba/whatsmyhealth
-    container_name: nas-health-status
+    container_name: healthcheck
     restart: unless-stopped
     environment:
       CHECK_URL: $CHECK_URL
