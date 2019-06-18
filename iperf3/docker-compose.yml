@@ -1,0 +1,10 @@
+version: '2'
+
+servies:
+  iperf:
+    container_name: iperf
+    image: networkstatic/iperf3
+    restart: unless-stopped
+    ports:
+      - 5201:5201/tcp
+      - 5201:5201/udp
