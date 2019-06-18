@@ -1,6 +1,6 @@
 version: '2'
 
-servies:
+services:
   iperf:
     container_name: iperf
     image: networkstatic/iperf3
