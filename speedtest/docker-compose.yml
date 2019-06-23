@@ -12,3 +12,7 @@ services:
       - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL}"
     networks:
       - docker-media-server_default
+
+networks:
+  docker-media-server_default:
+    external: true
