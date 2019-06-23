@@ -9,7 +9,7 @@ services:
       - PGID=1000
       - TZ=America/Argentina/Buenos_Aires
     volumes:
-      - /path/to/appdata/config:/config
+      - ~/irc:/config
     ports:
       - 9000:9000
     restart: unless-stopped
