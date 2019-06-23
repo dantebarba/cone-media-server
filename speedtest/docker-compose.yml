@@ -4,11 +4,9 @@ services:
   speedtest:
     image: adolfintel/speedtest:latest
     container_name: speedtest
-    ports:
-      - "8888:80"
     labels:
       - "traefik.enable=true"
-      - "traefik.port=8888"
-      - "traefik.backend=transmission"
+      - "traefik.port=80"
+      - "traefik.backend=speedtest"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL}"
