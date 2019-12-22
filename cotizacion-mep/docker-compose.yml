@@ -14,5 +14,3 @@ services:
     environment:
       username: ${username}
       password: ${password}
-    ports:
-      - "5000:5000/tcp"
