@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  cotizacion-mep-bot:
+    image: dantebarba/cotizacion-mep-bot:latest
+    container_name: cotizacion-mep-bot
+    environment:
+      TELEGRAM_TOKEN: $telegram_token
+      API_URL: $api_url
+
+  cotizacion-mep-api:
+    image: dantebarba/cotizacion-mep:latest
+    container_name: cotizacion-mep-api
+    environment:
+      username: ${username}
+      password: ${password}
+    ports:
+      - "5000:5000/tcp"
