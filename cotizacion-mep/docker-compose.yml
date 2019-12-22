@@ -5,12 +5,12 @@ services:
     image: dantebarba/cotizacion-mep-bot:latest
     container_name: cotizacion-mep-bot
     environment:
-      TELEGRAM_TOKEN: $telegram_token
-      API_URL: $api_url
+      TELEGRAM_TOKEN: $mep_telegram_token
+      API_URL: $mep_api_url
 
   cotizacion-mep-api:
-    image: dantebarba/cotizacion-mep:latest
+    image: dantebarba/cotizacion-mep-api:latest
     container_name: cotizacion-mep-api
     environment:
-      username: ${username}
-      password: ${password}
+      username: ${iol_username}
+      password: ${iol_password}
