@@ -9,3 +9,9 @@ services:
       - ${STORAGE_LOCATION}/telegram-radarr-bot:/config
     networks:
       - main
+
+networks:
+  main:
+    external: true
+  default:
+    driver: bridge
