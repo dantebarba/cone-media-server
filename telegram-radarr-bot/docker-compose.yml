@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  telegram-radarr-bot:
+    container_name: telegram-radarr-bot
+    image: itsmegb/telegram-radarr-bot
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/telegram-radarr-bot:/config
+    networks:
+      - main
