@@ -8,4 +8,10 @@ services:
     volumes:
       - ${STORAGE_LOCATION}/telegram-radarr-bot:/config
     networks:
-      - default
+      - docker-media-server_default
+
+networks:
+  docker-media-server_default:
+    external: true
+  default:
+    driver: bridge
