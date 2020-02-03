@@ -8,11 +8,4 @@ services:
     volumes:
       - ${STORAGE_LOCATION}/telegram-radarr-bot:/config
     networks:
-      - main
       - default
-
-networks:
-  main:
-    external: true
-  default:
-    driver: bridge
