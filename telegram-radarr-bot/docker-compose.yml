@@ -9,6 +9,7 @@ services:
       - ${STORAGE_LOCATION}/telegram-radarr-bot:/config
     networks:
       - main
+      - default
 
 networks:
   main:
