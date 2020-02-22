@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     environment:
       CHECK_URL: $CHECK_URL
+      FORCE_TEST: '1'
       TZ: 'America/Argentina/Buenos_Aires'
       CRON: '0,30 * * * *'
       LOG_LEVEL: '7'
