@@ -11,8 +11,10 @@ services:
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL}"
     networks:
-      - main
+      - docker-media-server_default
 
 networks:
-  main:
+  docker-media-server_default:
     external: true
+  default:
+    driver: bridge
