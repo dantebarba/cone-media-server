@@ -10,3 +10,11 @@ services:
       - "traefik.backend=acestream"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:tv.${DOMAIN_URL}"
+    networks:
+      - docker-media-server_default
+
+networks:
+  docker-media-server_default:
+    external: true
+  default:
+    driver: bridge
