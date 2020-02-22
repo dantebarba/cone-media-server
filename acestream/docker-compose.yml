@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  acestream:
+    image: blaiseio/acestream
+    container_name: acestream
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=6878"
+      - "traefik.backend=acestream"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.frontend.rule=Host:tv.${DOMAIN_URL}"
