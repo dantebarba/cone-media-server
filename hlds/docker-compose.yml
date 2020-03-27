@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  steamcmd:
+    container_name: steamcmd
+    image: dantebarba/steamcmd-hlds
+    restart: unless-stopped
+    volumes:
+      - "$HOME/hlds:~/"
+    ports:
+      - 27015:27015/tcp
+      - 27015:27015/udp
