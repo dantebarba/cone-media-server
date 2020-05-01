@@ -8,5 +8,5 @@ services:
     ports:
       - 1194:1194/udp
     volumes:
-      - ${STORAGE_LOCATION}/openvpn::/etc/openvpn
+      - ${STORAGE_LOCATION}/openvpn:/etc/openvpn
     
