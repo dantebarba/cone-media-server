@@ -1,8 +1,6 @@
 version: '3.3'
 services:
     looking-glass:
-        ports:
-            - '80:80'
         image: 'gmazoyer/looking-glass:latest'
         container_name: looking-glass
         labels:
