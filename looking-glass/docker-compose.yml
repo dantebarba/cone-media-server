@@ -3,6 +3,8 @@ services:
     looking-glass:
         image: 'gmazoyer/looking-glass:latest'
         container_name: looking-glass
+        volumes:
+            - "./config.php:/var/www/html/config.php"
         labels:
             - "traefik.enable=true"
             - "traefik.port=80"
