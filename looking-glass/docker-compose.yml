@@ -3,8 +3,6 @@ services:
     looking-glass:
         ports:
             - '80:80'
-        volumes:
-            - '$(pwd)/config.php:/var/www/html/config.php'
         image: 'gmazoyer/looking-glass:latest'
         container_name: looking-glass
         labels:
