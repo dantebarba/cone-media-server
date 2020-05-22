@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+    looking-glass:
+        ports:
+            - '80:80'
+        volumes:
+            - '$(pwd)/config.php:/var/www/html/config.php'
+        image: 'gmazoyer/looking-glass:latest'
+        container_name: looking-glass
+        labels:
+            - "traefik.enable=true"
+            - "traefik.port=80"
+            - "traefik.backend=lookingglass"
+            - "traefik.frontend.entryPoints=http,https"
+            - "traefik.frontend.rule=Host:lg.${DOMAIN_URL}"
+        networks:
+            - docker-media-server_default
+
+networks:
+  docker-media-server_default:
+    external: true
