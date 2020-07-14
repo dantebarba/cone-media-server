@@ -19,7 +19,6 @@ services:
         - "traefik.frontend.entryPoints=http,https"
         - "traefik.frontend.rule=Host:auth.${DOMAIN_URL}"
         - "traefik.port=4181"
-        - "traefik.frontend.entryPoints=http,https"
         - "traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181"
         - "traefik.frontend.auth.forward.trustForwardHeader=true"
 
