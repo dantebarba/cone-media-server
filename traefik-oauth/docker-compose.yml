@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  traefik-forward-auth:
+      image: thomseddon/traefik-forward-auth:2.1.0
+      container_name: traefik-forward-auth
+      networks:
+        - docker-media-server_default
+      environment:
+        PROVIDERS_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+        PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+        PROVIDERS_OIDC_ISSUER_URL: ${OIDC_ISSUER}
+        SECRET: secret_key
+        AUTH_HOST: ${AUTH_HOST}
+        COOKIE_DOMAIN: ${COOKIE_DOMAINS}
+      labels:
+        - "traefik.enable=true"
+        - "traefik.backend=traefik-forward-auth"
+        - "traefik.frontend.entryPoints=http,https"
+        - "traefik.frontend.rule=Host:auth.${DOMAIN_URL}"
+        - "traefik.port=4181"
+        - "traefik.frontend.entryPoints=http,https"
+        - "traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181"
+        - "traefik.frontend.auth.forward.trustForwardHeader=true"
+
+networks:
+  docker-media-server_default:
+    external: true
+  default:
+    driver: bridge
