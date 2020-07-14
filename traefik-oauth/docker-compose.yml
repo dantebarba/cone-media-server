@@ -13,6 +13,7 @@ services:
         SECRET: secret_key
         AUTH_HOST: ${AUTH_HOST}
         COOKIE_DOMAIN: ${COOKIE_DOMAINS}
+        WHITELIST: ${WHITELIST}
       labels:
         - "traefik.enable=true"
         - "traefik.backend=traefik-forward-auth"
