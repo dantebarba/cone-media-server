@@ -1,14 +1,27 @@
-version: '2'  
+version: '3.3'  
   
 services:
   load-balancer:
-    image: traefik:v1.7.11
+    image: traefik:v1.7
     container_name: load-balancer
     restart: unless-stopped
+    command:
+      - "--acme"
+      - "--acme.storage=acme.json"
+      - "--acme.entryPoint=https"
+      - "--acme.dnsChallenge.provider=cloudflare"
+      - "--acme.dnsChallenge.delaybeforecheck=300"
+      - "--acme.domains=${DOMAIN_URL}"
+      - "--acme.onHostRule=true"
+      - "--acme.acmelogging=true"
+      - "--acme.email=${ACME_EMAIL}"
+      - "--docker"
+      - "--docker.domain=${DOMAIN_URL}"
+      - "--docker.exposedbydefault=false"
+      - "--docker.watch=true"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     environment:
       - CF_API_EMAIL=${CLOUDFLARE_EMAIL}
       - CF_API_KEY=${CLOUDFLARE_API_KEY}
@@ -19,7 +32,6 @@ services:
       - ./acme.json:/acme.json
     networks:
       - main
-      - default
     labels:
       - "traefik.enable=true"
       - "traefik.port=8080"
@@ -27,9 +39,10 @@ services:
       - "traefik.docker.network=main"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:traefik.${DOMAIN_URL}"
+      - traefik.frontend.auth.forward.address=${OAUTH_FORWARD_URL}
+      - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+      - traefik.frontend.auth.forward.trustForwardHeader=true
 
 networks:
   main:
     external: true
-  default:
-    driver: bridge
