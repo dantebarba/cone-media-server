@@ -5,7 +5,7 @@ services:
       image: thomseddon/traefik-forward-auth:2.1.0
       container_name: traefik-forward-auth
       networks:
-        - docker-media-server_default
+        - main
       environment:
         PROVIDERS_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
         PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
@@ -24,7 +24,5 @@ services:
         - "traefik.frontend.auth.forward.trustForwardHeader=true"
 
 networks:
-  docker-media-server_default:
+  main:
     external: true
-  default:
-    driver: bridge
