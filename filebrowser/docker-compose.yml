@@ -1,0 +1,36 @@
+version: '3.3'
+
+services:
+  filebrowser:
+    container_name: filebrowser
+    image: filebrowser/filebrowser:v2-debian
+    restart: unless-stopped
+    entrypoint: /bin/sh -c "if [ ! -f /data/database.db ]; then /filebrowser config import /.filebrowser.json;/filebrowser users import /users.json; fi;/filebrowser"
+    volumes:
+      - ${FILEBROWSER_HOME}:/srv
+      - ${STORAGE_LOCATION}/filebrowser/data:/data
+      - ${STORAGE_LOCATION}/filebrowser/filebrowser.json:/.filebrowser.json
+      - ${STORAGE_LOCATION}/filebrowser/users.json:/users.json
+    labels:
+      - "traefik.docker.network=main"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:cloud.${DOMAIN_URL}"
+      - "traefik.basic.port=80"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.backend.healthcheck.path=/"
+      - "traefik.backend.healthcheck.interval=30s"
+      - "traefik.frontend.auth.forward.address=${OAUTH_FORWARD_URL}"
+      - "traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User"
+      - "traefik.frontend.auth.forward.trustForwardHeader=true"
+      - traefik.frontend.headers.frameDeny=false
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.isDevelopment=false
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.forceSTSHeader=false
+      - traefik.frontend.headers.contentTypeNosniff=true
+    networks:
+      - main
+
+networks: 
+  main:
+    external: true
