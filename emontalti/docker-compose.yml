@@ -10,6 +10,7 @@ services:
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      TZ: "America/Argentina/Buenos_Aires"
     networks:
       - emontalti_net
     volumes:
@@ -31,6 +32,7 @@ services:
       MYSQL_USER: ${WORDPRESS_DB_USER}
       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      TZ: "America/Argentina/Buenos_Aires"
     networks:
       - emontalti_net
     volumes:
@@ -43,6 +45,7 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
+      TZ: "America/Argentina/Buenos_Aires"
     restart: unless_stopped
     networks:
       - emontalti_net
