@@ -52,11 +52,12 @@ services:
     restart: unless-stopped
     networks:
       - emontalti_net
+      - main
     labels:
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.backend=phpmyadmin"
-      - "traefik.docker.network=emontalti_net"
+      - "traefik.docker.network=main"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:phpmyadmin.${DOMAIN_URL}"
       - traefik.frontend.auth.forward.address=https://auth.${DOMAIN_URL}
