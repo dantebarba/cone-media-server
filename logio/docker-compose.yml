@@ -24,7 +24,6 @@ services:
     image: blacklabelops/logio
     container_name: harvester
     command: harvester
-    hostname: ${LOGIO_HOSTNAME} # set to fqdn of host
     environment:
       - "LOGIO_HARVESTER_MASTER_HOST=logio"
       - "LOGIO_HARVESTER_MASTER_PORT=28777"
