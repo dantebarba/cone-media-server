@@ -46,7 +46,7 @@ services:
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
       TZ: "America/Argentina/Buenos_Aires"
-    restart: unless_stopped
+    restart: unless-stopped
     networks:
       - emontalti_net
     labels:
