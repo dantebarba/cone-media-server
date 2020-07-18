@@ -47,7 +47,6 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
-      PMA_ABSOLUTE_URI: phpmyadmin.${DOMAIN_URL}
       TZ: "America/Argentina/Buenos_Aires"
     restart: unless-stopped
     networks:
