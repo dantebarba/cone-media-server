@@ -33,6 +33,7 @@ services:
       MYSQL_USER: ${WORDPRESS_DB_USER}
       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_ROOT_HOST: '%'
       TZ: "America/Argentina/Buenos_Aires"
     networks:
       - emontalti_net
@@ -42,8 +43,6 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
-    ports:
-      - 8080:80
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
