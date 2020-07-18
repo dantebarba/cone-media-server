@@ -32,7 +32,7 @@ services:
       MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
       MYSQL_USER: ${WORDPRESS_DB_USER}
       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
-      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+      MYSQL_ROOT_PASSWORD: 1A2B3C4E
       MYSQL_ROOT_HOST: '%'
       TZ: "America/Argentina/Buenos_Aires"
     networks:
