@@ -24,6 +24,7 @@ services:
     image: blacklabelops/logio
     container_name: harvester
     command: harvester
+    user: root
     environment:
       - "LOGIO_HARVESTER_MASTER_HOST=logio"
       - "LOGIO_HARVESTER_MASTER_PORT=28777"
