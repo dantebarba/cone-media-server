@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  logio:
+    image: blacklabelops/logio
+    container_name: logio
+    hostname: ${LOGIO_HOSTNAME} # set to fqdn of host
+    networks:
+      - main
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=28778"
+      - "traefik.backend=logio"
+      - "traefik.docker.network=main"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.frontend.rule=Host:logs.${DOMAIN_URL}"
+      - traefik.frontend.auth.forward.address=${OAUTH_FORWARD_URL}
+      - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+      - traefik.frontend.auth.forward.trustForwardHeader=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  logio-harvester:
+    image: blacklabelops/logio
+    container_name: harvester
+    command: harvester
+    hostname: ${LOGIO_HOSTNAME} # set to fqdn of host
+    environment:
+      - "LOG_FILE_PATTERN=*-json.log"
+      - "LOGS_DIRECTORIES=/var/lib/docker/containers"
+    networks:
+      - main
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+networks:
+  main:
+    external: true
