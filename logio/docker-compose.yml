@@ -13,7 +13,7 @@ services:
       - "traefik.port=28778"
       - "traefik.backend=logio"
       - "traefik.docker.network=main"
-      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.frontend.entryPoints=https"
       - "traefik.frontend.rule=Host:logs.${DOMAIN_URL}"
       - traefik.frontend.auth.forward.address=${OAUTH_FORWARD_URL}
       - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
