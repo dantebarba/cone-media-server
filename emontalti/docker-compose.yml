@@ -51,7 +51,7 @@ services:
       - emontalti_net
     labels:
       - "traefik.enable=true"
-      - "traefik.port=80"
+      - "traefik.port=8080"
       - "traefik.backend=phpmyadmin"
       - "traefik.docker.network=emontalti_net"
       - "traefik.frontend.entryPoints=http,https"
