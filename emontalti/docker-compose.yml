@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db
+      WORDPRESS_DEBUG: 1
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
@@ -18,7 +19,7 @@ services:
       - ${STORAGE_LOCATION}/emontalti/www/html:/var/www/html
     labels:
       - "traefik.enable=true"
-      - "traefik.port=8080"
+      - "traefik.port=80"
       - "traefik.backend=wordpress"
       - "traefik.docker.network=emontalti_net"
       - "traefik.frontend.entryPoints=http,https"
