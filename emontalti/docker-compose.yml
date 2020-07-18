@@ -6,7 +6,7 @@ services:
     container_name: wordpress
     restart: unless-stopped
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DEBUG: 1
       WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
       WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
@@ -21,7 +21,7 @@ services:
       - "traefik.enable=true"
       - "traefik.port=80"
       - "traefik.backend=wordpress"
-      - "traefik.docker.network=emontalti_net"
+      - "traefik.docker.network=main"
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:emontalti.${DOMAIN_URL}"
 
