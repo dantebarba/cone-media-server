@@ -63,3 +63,6 @@ services:
 networks:
   emontalti_net:
     external: true
+
+volumes:
+  emontalti_db:
