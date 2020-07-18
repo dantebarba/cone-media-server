@@ -4,7 +4,7 @@ services:
   logio:
     image: blacklabelops/logio
     container_name: logio
-    hostname: ${LOGIO_HOSTNAME}
+    hostname: ${DOMAIN_URL}
     networks:
       - main
       - logio-internal
