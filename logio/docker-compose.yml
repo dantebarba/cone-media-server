@@ -4,9 +4,10 @@ services:
   logio:
     image: blacklabelops/logio
     container_name: logio
-    hostname: ${LOGIO_HOSTNAME} # set to fqdn of host
+    hostname: ${LOGIO_HOSTNAME}
     networks:
       - main
+      - logio-internal
     labels:
       - "traefik.enable=true"
       - "traefik.port=28778"
@@ -26,10 +27,15 @@ services:
     command: harvester
     hostname: ${LOGIO_HOSTNAME} # set to fqdn of host
     environment:
+      - "LOGIO_HARVESTER_MASTER_HOST=logio"
+      - "LOGIO_HARVESTER_MASTER_PORT=28777"
+      - 'DELAYED_START=10'
+      - 'LOGIO_HARVESTER_NODENAME=DockerLogs'
+      - 'LOGIO_HARVESTER_STREAMNAME=UnifiedLogs'
       - "LOG_FILE_PATTERN=*-json.log"
       - "LOGS_DIRECTORIES=/var/lib/docker/containers"
     networks:
-      - main
+      - logio-internal
     volumes:
       - /var/lib/docker/containers:/var/lib/docker/containers
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -37,3 +43,4 @@ services:
 networks:
   main:
     external: true
+  logio-internal:
