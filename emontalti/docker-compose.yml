@@ -68,6 +68,8 @@ services:
 networks:
   emontalti_net:
     external: true
+  main:
+    external: true
 
 volumes:
   emontalti_db:
