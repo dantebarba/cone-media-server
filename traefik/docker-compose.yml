@@ -32,7 +32,6 @@ services:
       - ./acme.json:/acme.json
     networks:
       - main
-      - emontalti_net
     labels:
       - "traefik.enable=true"
       - "traefik.port=8080"
@@ -46,6 +45,4 @@ services:
 
 networks:
   main:
-    external: true
-  emontalti_net:
     external: true
