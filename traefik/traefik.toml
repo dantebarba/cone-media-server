@@ -1,5 +1,5 @@
-debug = true
-logLevel = "DEBUG" #DEBUG, INFO, WARN, ERROR, FATAL, PANIC
+#debug = true
+logLevel = "WARN" #DEBUG, INFO, WARN, ERROR, FATAL, PANIC
 InsecureSkipVerify = true
 
 defaultEntryPoints = ["https"]
