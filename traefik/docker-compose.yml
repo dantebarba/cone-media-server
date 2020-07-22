@@ -11,7 +11,7 @@ services:
       - "--acme.entryPoint=https"
       - "--acme.dnsChallenge.provider=cloudflare"
       - "--acme.dnsChallenge.delaybeforecheck=300"
-      - "--acme.domains=${DOMAIN_URL}"
+      - "--acme.domains=${DOMAIN_URL},${WORDPRESS_URL}"
       - "--acme.onHostRule=true"
       - "--acme.acmelogging=true"
       - "--acme.email=${ACME_EMAIL}"

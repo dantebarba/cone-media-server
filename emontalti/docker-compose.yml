@@ -23,7 +23,7 @@ services:
       - "traefik.backend=wordpress"
       - "traefik.docker.network=main"
       - "traefik.frontend.entryPoints=http,https"
-      - "traefik.frontend.rule=Host:emontalti.${DOMAIN_URL}"
+      - "traefik.frontend.rule=Host:${WORDPRESS_URL}"
 
   db:
     image: mysql:5.7
