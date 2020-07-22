@@ -16,7 +16,6 @@ services:
       - "--acme.acmelogging=true"
       - "--acme.email=${ACME_EMAIL}"
       - "--docker"
-      - "--docker.domain=${DOMAIN_URL}"
       - "--docker.exposedbydefault=false"
       - "--docker.watch=true"
     ports:
