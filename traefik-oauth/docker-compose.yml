@@ -11,10 +11,13 @@ services:
         PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
         PROVIDERS_OIDC_ISSUER_URL: ${OIDC_ISSUER}
         SECRET: secret_key
+        CONFIG: /config.ini
         AUTH_HOST: ${AUTH_HOST}
         COOKIE_DOMAIN: ${COOKIE_DOMAINS}
         WHITELIST: ${WHITELIST}
         LOG_LEVEL: warn
+      volumes:
+        - ./config.ini:/config.ini
       labels:
         - "traefik.enable=true"
         - "traefik.backend=traefik-forward-auth"
