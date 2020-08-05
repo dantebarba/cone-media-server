@@ -8,9 +8,37 @@ services:
       TELEGRAM_TOKEN: $mep_telegram_token
       API_URL: $mep_api_url
 
+  cotizacion-mep-api-auth:
+    image: dantebarba/cotizacion-mep-api:0.6.0
+    container_name: cotizacion-mep-api-v2
+    restart: unless-stopped
+    environment:
+      username: ${iol_username}
+      password: ${iol_password}
+    labels:
+      - "traefik.docker.network=main"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:dolar.${DOMAIN_URL}"
+      - "traefik.basic.port=5000"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.backend.healthcheck.path=/"
+      - "traefik.backend.healthcheck.interval=30s"
+      - traefik.frontend.headers.frameDeny=false
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.isDevelopment=false
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.forceSTSHeader=false
+      - traefik.frontend.headers.contentTypeNosniff=true
+    networks:
+      - main
+
   cotizacion-mep-api:
     image: dantebarba/cotizacion-mep-api:latest
     container_name: cotizacion-mep-api
     environment:
       username: ${iol_username}
       password: ${iol_password}
+
+networks: 
+  main:
+    external: true
