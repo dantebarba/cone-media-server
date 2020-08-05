@@ -15,6 +15,7 @@ services:
     environment:
       username: ${iol_username}
       password: ${iol_password}
+      API_PASSWORD: ${MEP_API_PASSWORD}
     labels:
       - "traefik.docker.network=main"
       - "traefik.enable=true"
