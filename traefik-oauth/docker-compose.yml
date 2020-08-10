@@ -16,7 +16,7 @@ services:
         AUTH_HOST: ${AUTH_HOST}
         COOKIE_DOMAIN: ${COOKIE_DOMAINS}
         WHITELIST: ${WHITELIST}
-        LOG_LEVEL: trace
+        LOG_LEVEL: ${AUTH_LOGLEVEL}
       volumes:
         - ./config.ini:/config.ini
       labels:
