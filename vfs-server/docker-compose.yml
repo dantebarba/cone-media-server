@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  vfs-server:
+    image: linuxserver/openssh-server:latest
+    container_name: vfs-server
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/radarr/movies/local:/movies
+      - ${STORAGE_LOCATION}/transmission/downloads/complete:/downloads
+      - ${CONFIG_LOCATION}/vfs_server:/config
+    environment:
+      PGID: ${PGID}
+      PUID: ${PUID}
+      TZ: America/Argentina/Buenos_Aires
+      USER_NAME: ${VFS_USERNAME}
+      USER_PASSWORD: ${VFS_PASSWORD}
+      SUDO_ACCESS: 'true'
+      PASSWORD_ACCESS: 'true'
+    ports:
+      - 2222:2222
+    networks:
+      - main
+
+networks:
+  main:
+    external: true
