@@ -5,7 +5,9 @@ services:
     image: dperson/samba
     container_name: smb-server
     privileged: true
-    command: -p -u "example1;badpass" -s "public;/share"
+    command: -p -u "example1;badpass" -s "public;/share" 
+    environment:
+      SHARE: '/share'
     ports:
       - "139:139"
       - "445:445"     
