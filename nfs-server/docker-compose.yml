@@ -12,5 +12,6 @@ services:
       - "139:139"
       - "445:445"     
     volumes:
+      - ${STORAGE_LOCATION}/transmission/downloads/complete:/share/downloads
       - ${STORAGE_LOCATION}/radarr/movies/local:/share/movies
     restart: unless-stopped
