@@ -14,5 +14,7 @@ services:
       PHP_TZ: America/Argentina/Buenos_Aires
       PUID: 1000
       PGID: 1000
+    devices:
+      - /dev/fuse
     cap_add:
       - SYS_ADMIN
