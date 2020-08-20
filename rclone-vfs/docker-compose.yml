@@ -6,7 +6,7 @@ services:
     container_name: rclone-vfs
     restart: unless-stopped
     privileged: true
-    command: mount Papini:/movies /movies --file-perms 444 --allow-other --buffer-size 32M --poll-interval 1m --log-file=/config/rclone/rclone.log --log-level=DEBUG
+    command: mount Papini:/movies /movies --dir-perms 664 --file-perms 664  --gid ${GUID} --uid ${PUID} --allow-other --buffer-size 32M --poll-interval 1m --log-file=/config/rclone/rclone.log --log-level=DEBUG
     volumes:
       - "${STORAGE_LOCATION}/radarr/movies/remote:/movies:shared"
       - "${STORAGE_LOCATION}/rclone-vfs:/config/rclone"
