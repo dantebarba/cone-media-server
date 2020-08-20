@@ -1,0 +1,19 @@
+version: '3.3'
+
+services:
+  rclone-vfs:
+    image: rclone/rclone:latest
+    container_name: rclone-vfs
+    restart: unless-stopped
+    privileged: true
+    command: mount Crown:/root/docker/rclone-union-test /movies --file-perms 444 --allow-other --buffer-size 32M --poll-interval 1m --log-file=/config/rclone/rclone.log --log-level=WARN
+    volumes:
+      - "${STORAGE_LOCATION}/radarr/movies/remote:/movies:shared"
+      - "${STORAGE_LOCATION}/rclone-vfs:/config/rclone"
+      - "root/.ssh:/.ssh:ro"
+    environment:
+      PHP_TZ: America/Argentina/Buenos_Aires
+      PUID: 1000
+      PGID: 1000
+    cap_add:
+      - SYS_ADMIN
