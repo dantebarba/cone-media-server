@@ -10,7 +10,6 @@ services:
     volumes:
       - "${STORAGE_LOCATION}/radarr/movies/remote:/movies:shared"
       - "${STORAGE_LOCATION}/rclone-vfs:/config/rclone"
-      - "root/.ssh:/.ssh:ro"
     environment:
       PHP_TZ: America/Argentina/Buenos_Aires
       PUID: 1000
