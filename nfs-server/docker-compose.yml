@@ -8,10 +8,9 @@ services:
     ports:
       - "2049:2049"
     cap_add:
-      - SYS_ADMIN
-    environment:
-      - NFS_EXPORT_0='/container/nfs-share                *(rw,no_subtree_check)'
+      - SYS_ADMIN      
     volumes:
-      - ${STORAGE_LOCATION}/transmission/downloads/complete:/nfs-share
+      - ./export:/etc/exports:ro
+      - ${STORAGE_LOCATION}/nfs/nfsroot:/nfsroot
     #   - ${STORAGE_LOCATION}/radarr/movies/local:/nfs-share/movies
     restart: unless-stopped
