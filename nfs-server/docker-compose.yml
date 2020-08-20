@@ -4,6 +4,7 @@ services:
   nfs-server:
     image: gists/nfs-server
     container_name: nfs-server
+    privileged: true
     ports:
       - "2049:2049"
     cap_add:
