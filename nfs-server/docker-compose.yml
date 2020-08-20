@@ -8,6 +8,8 @@ services:
     command: -p -u "example1;badpass" -r
     environment:
       SHARE: 'share;/share'
+      USERID: ${PUID}
+      GROUPID: ${GUID}
     ports:
       - "139:139"
       - "445:445"     
