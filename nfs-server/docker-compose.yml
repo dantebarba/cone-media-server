@@ -1,15 +1,13 @@
 version: '3.3'
 
 services:
-  nfs-server:
-    image: erichough/nfs-server
-    container_name: nfs-server
+  smb-server:
+    image: dperson/samba
+    container_name: smb-server
     privileged: true
     ports:
-      - "2049:2049"
-    cap_add:
-      - SYS_ADMIN      
+      - "139:139"
+      - "445:445"     
     volumes:
-      - ./export:/etc/exports:ro
-      - ${STORAGE_LOCATION}/radarr/movies/local:/nfsroot/movies
+      - ${STORAGE_LOCATION}/radarr/movies/local:/mount/movies
     restart: unless-stopped
