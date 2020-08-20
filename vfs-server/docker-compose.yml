@@ -6,6 +6,8 @@ services:
     container_name: vfs-server
     restart: unless-stopped
     volumes:
+      - ${STORAGE_LOCATION}/transmission/downloads/complete:/vfs/downloads
+      - ${STORAGE_LOCATION}/radarr/movies/local:/vfs/movies
       - ${STORAGE_LOCATION}/vfs-server:/config
     environment:
       PGID: ${PGID}
