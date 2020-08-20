@@ -19,9 +19,3 @@ services:
       PASSWORD_ACCESS: 'true'
     ports:
       - 2222:2222
-    networks:
-      - main
-
-networks:
-  main:
-    external: true
