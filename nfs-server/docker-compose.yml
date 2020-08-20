@@ -11,6 +11,5 @@ services:
       - SYS_ADMIN      
     volumes:
       - ./export:/etc/exports:ro
-      - ${STORAGE_LOCATION}/nfs/nfsroot:/nfsroot
-    #   - ${STORAGE_LOCATION}/radarr/movies/local:/nfs-share/movies
+      - ${STORAGE_LOCATION}/radarr/movies/local:/nfsroot/movies
     restart: unless-stopped
