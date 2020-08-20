@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  nfs-server:
+    image: gists/nfs-server
+    container_name: nfs-server
+    ports:
+      - "2049:2049"
+    cap_add:
+      - SYS_ADMIN
+      - SETPCAP
+    environment:
+      - "NFS_DOMAIN=186.19.87.26" # The visitor IP range
+      - "NFS_OPTION=fsid=0,rw,sync,insecure,all_squash,anonuid=65534,anongid=65534,no_subtree_check,nohide"
+    volumes:
+      - ${STORAGE_LOCATION}/transmission/downloads/complete:/nfs-share/downloads
+      - ${STORAGE_LOCATION}/radarr/movies/local:/nfs-share/movies
+    restart: unless-stopped
