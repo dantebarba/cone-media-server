@@ -10,7 +10,7 @@ services:
     cap_add:
       - SYS_ADMIN
     environment:
-      - NFS_EXPORT_0='/nfs-share                  *(rw,no_subtree_check)'
+      - NFS_EXPORT_0='/some-path                *(rw,no_subtree_check)'
     volumes:
       - ${STORAGE_LOCATION}/transmission/downloads/complete:/nfs-share
     #   - ${STORAGE_LOCATION}/radarr/movies/local:/nfs-share/movies
