@@ -7,7 +7,7 @@ services:
     privileged: true
     command: -p -u "example1;badpass" -r
     environment:
-      SHARE: 'share;/share'
+      SHARE: 'share;/share;yes;no;no;example1;example1;example1;main_directory'
       USERID: ${PUID}
       GROUPID: ${PGID}
     ports:
