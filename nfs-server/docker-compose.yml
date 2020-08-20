@@ -5,9 +5,10 @@ services:
     image: dperson/samba
     container_name: smb-server
     privileged: true
+    command: -p -u "example1;badpass" -s "public;/share"
     ports:
       - "139:139"
       - "445:445"     
     volumes:
-      - ${STORAGE_LOCATION}/radarr/movies/local:/mount/movies
+      - ${STORAGE_LOCATION}/radarr/movies/local:/share/movies
     restart: unless-stopped
