@@ -9,7 +9,7 @@ services:
     environment:
       SHARE: 'share;/share'
       USERID: ${PUID}
-      GROUPID: ${GUID}
+      GROUPID: ${PGID}
     ports:
       - "139:139"
       - "445:445"     
