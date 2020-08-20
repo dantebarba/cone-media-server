@@ -11,7 +11,6 @@ services:
       - SYS_ADMIN
       - SETPCAP
     environment:
-      - "NFS_DOMAIN=${NFS_DOMAIN}" # The visitor IP range
       - "NFS_OPTION=fsid=0,rw,sync,insecure,all_squash,anonuid=65534,anongid=65534,no_subtree_check,nohide"
     volumes:
       - ${STORAGE_LOCATION}/transmission/downloads/complete:/nfs-share
