@@ -5,7 +5,7 @@ services:
     image: rclone/rclone:latest
     container_name: vfs-server
     restart: unless-stopped
-    command: serve sftp /vfs --addr localhost:2222 --gid ${PGID} --uid ${PUID} --user ${VFS_USERNAME} --pass ${VFS_PASSWORD} 
+    command: serve sftp /vfs --addr 0.0.0.0:2222 --gid ${PGID} --uid ${PUID} --user ${VFS_USERNAME} --pass ${VFS_PASSWORD} 
     volumes:
       - ${STORAGE_LOCATION}/transmission/downloads/complete:/vfs/downloads
       - ${STORAGE_LOCATION}/radarr/movies/local:/vfs/movies
