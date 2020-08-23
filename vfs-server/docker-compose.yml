@@ -2,9 +2,10 @@ version: '3.3'
 
 services:
   vfs-server:
-    image: linuxserver/openssh-server:latest
+    image: rclone/rclone:latest
     container_name: vfs-server
     restart: unless-stopped
+    command: serve sftp --addr localhost:2222 --gid ${PGID} --uid ${PUID} --user ${VFS_USERNAME} --pass ${VFS_PASSWORD} 
     volumes:
       - ${STORAGE_LOCATION}/transmission/downloads/complete:/vfs/downloads
       - ${STORAGE_LOCATION}/radarr/movies/local:/vfs/movies
