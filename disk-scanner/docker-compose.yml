@@ -8,7 +8,7 @@ services:
       - ${STORAGE_LOCATION}/radarr/movies:/movies
       - ${STORAGE_LOCATION}/sonarr/tvseries:/tv
     environment:
-      SCAN_DIRS: "['/movies','/tv']"
-      FREE: "20G"
-      THRESHOLD: "30G"
-      LOG_LEVEL: "DEBUG"
+      SCAN_DIRS: ${SCAN_DIRS}
+      FREE: ${FREE}
+      THRESHOLD: ${THRESHOLD}
+      LOG_LEVEL: ${LOG_LEVEL}
