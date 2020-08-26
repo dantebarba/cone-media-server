@@ -18,4 +18,4 @@ services:
       SOURCE_REMOTE: ${SOURCE_REMOTE}
       DESTINATION_REMOTE: ${DESTINATION_REMOTE}
       RCLONE_URL: ${RCLONE_URL}
-      REMOTE_PATH_MAPPING: ${REMOTE_PATH_MAPPING}
+      REMOTE_PATH_MAPPING: "{\"/movies\": \"${STORAGE_LOCATION}/radarr/movies\", \"/tv\" : \"${STORAGE_LOCATION}/sonarr/tvseries\"}"
