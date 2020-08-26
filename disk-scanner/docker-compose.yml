@@ -4,6 +4,7 @@ services:
   disk-scanner:
     image: dantebarba/diskspacescanner:latest
     container_name: disk-scanner
+    command: bash -c echo $REMOTE_PATH_MAPPING
     volumes:
       - ${STORAGE_LOCATION}/radarr/movies:/movies
       - ${STORAGE_LOCATION}/sonarr/tvseries:/tv
