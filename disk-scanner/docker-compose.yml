@@ -9,7 +9,7 @@ services:
       - ${STORAGE_LOCATION}/sonarr/tvseries:/tv
     environment:
       SCAN_DIRS: "['/movies','/tv']"
-      FREE: '20 GB'
-      THRESHOLD: '30 GB'
+      FREE: '"20 GB"'
+      THRESHOLD: '"30 GB"'
       LOG_LEVEL: "DEBUG"
       
