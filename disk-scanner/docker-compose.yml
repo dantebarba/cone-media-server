@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  disk-scanner:
+    image: dantebarba/diskspacescanner:latest
+    container_name: disk-scanner
+    volumes:
+      - ${STORAGE_LOCATION}/radarr/movies:/movies
+      - ${STORAGE_LOCATION}/sonarr/tvseries:/tv
+    environment:
+      SCAN_DIRS: "['/movies','/tv']"
+      FREE: '20 GB'
+      THRESHOLD: '30 GB'
+      LOG_LEVEL: "DEBUG"
+      
