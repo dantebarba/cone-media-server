@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   disk-scanner:
-    image: dantebarba/diskspacescanner:4.0.2
+    image: dantebarba/diskspacescanner:4.0.3
     container_name: disk-scanner
     volumes:
       - ${STORAGE_LOCATION}/radarr/movies:/movies
