@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   disk-scanner:
-    image: dantebarba/diskspacescanner:3.0.0
+    image: dantebarba/diskspacescanner:4.0.2
     container_name: disk-scanner
     volumes:
       - ${STORAGE_LOCATION}/radarr/movies:/movies
@@ -21,3 +21,4 @@ services:
       TZ: ${DOCKER_TZ}
       REMOTE_PATH_MAPPING: ${REMOTE_PATH_MAPPING}
       SCHEDULED: ${SCHEDULED}
+      HEALTHCHECK: ${HEALTHCHECK}
