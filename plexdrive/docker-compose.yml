@@ -19,3 +19,4 @@ services:
       PGID: ${PGID}
       PUID: ${PUID}
       TZ: ${DOCKER_TZ}
+      PLEXDRIVE_OPTS: ${PLEXDRIVE_OPTS}
