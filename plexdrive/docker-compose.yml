@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  plexdrive:
+    image: wiserain/plexdrive:5.1.0
+    container_name: plexdrive
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/plexdrive/config:/config
+      - ${STORAGE_LOCATION}/plexdrive/cache:/cache
+      - /mnt/plexdrive:/data:shared
+    privileged: true
+    devices:
+      - /dev/fuse
+    cap_add:
+      - MKNOD
+      - SYS_ADMIN
+    environment:
+      PGID: ${PGID}
+      PUID: ${PUID}
+      TZ: ${DOCKER_TZ}
