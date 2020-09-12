@@ -26,11 +26,11 @@ services:
   gdrive:
     image: rclone/rclone:latest
     container_name: gdrive
-    command: rcd /config --rc-web-gui-no-open-browser --rc-addr :443 --rc-user ${RC_USER} --rc-pass ${RC_PASS}
+    command: rcd /config --rc-web-gui-no-open-browser --rc-addr :443 --rc-user ${AUTH_USER} --rc-pass ${AUTH_PASSWORD}
     restart: unless-stopped
     environment:
-      AUTH_USER: ${RC_USER}
-      AUTH_PASS: ${RC_PASS}
+      AUTH_USER: ${AUTH_USER}
+      AUTH_PASS: ${AUTH_PASSWORD}
       PHP_TZ: ${DOCKER_TZ}
       PUID: ${PUID}
       PGID: ${PGID}
