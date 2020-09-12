@@ -26,7 +26,8 @@ services:
   gdrive:
     image: rclone/rclone:latest
     container_name: gdrive
-    command: rcd /config --rc-web-gui-no-open-browser --rc-addr :443 --rc-user ${AUTH_USER} --rc-pass ${AUTH_PASSWORD}
+    hostname: gdrive
+    command: rcd /config --rc-web-gui-no-open-browser --rc-addr :5543 --rc-user ${AUTH_USER} --rc-pass ${AUTH_PASSWORD}
     restart: unless-stopped
     environment:
       AUTH_USER: ${AUTH_USER}
