@@ -22,3 +22,19 @@ services:
       REMOTE_PATH_MAPPING: ${REMOTE_PATH_MAPPING}
       SCHEDULED: ${SCHEDULED}
       HEALTHCHECK: ${HEALTHCHECK}
+
+  gdrive:
+    image: rclone/rclone:latest
+    container_name: gdrive
+    command: rcd /config --rc-web-gui-no-open-browser --rc-addr :443 --rc-user ${RC_USER} --rc-pass ${RC_PASS}
+    restart: unless-stopped
+    environment:
+      AUTH_USER: ${RC_USER}
+      AUTH_PASS: ${RC_PASS}
+      PHP_TZ: ${DOCKER_TZ}
+      PUID: ${PUID}
+      PGID: ${PGID}
+    volumes:
+      - ${STORAGE_LOCATION}/radarr/movies:/movies
+      - ${STORAGE_LOCATION}/sonarr/tvseries:/tv
+      - ${STORAGE_LOCATION}/gdrive:/config/rclone
