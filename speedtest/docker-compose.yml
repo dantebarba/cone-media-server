@@ -1,9 +1,10 @@
-version: '2'
+version: '3.7'
 
 services:
   speedtest:
     image: adolfintel/speedtest:latest
     container_name: speedtest
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.port=80"
@@ -11,10 +12,8 @@ services:
       - "traefik.frontend.entryPoints=http,https"
       - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL}"
     networks:
-      - docker-media-server_default
+      - main
 
 networks:
-  docker-media-server_default:
+  main:
     external: true
-  default:
-    driver: bridge
