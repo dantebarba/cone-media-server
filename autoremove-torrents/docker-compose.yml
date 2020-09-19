@@ -8,6 +8,7 @@ services:
     volumes:
       - ${STORAGE_LOCATION}/autoremove-torrents/config.yml:/app/config.yml
     environment:
+      TZ: ${DOCKER_TZ}
       CRON: ${CRON}
       OPTS: ${OPTS}
     networks:
