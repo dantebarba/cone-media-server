@@ -5,6 +5,8 @@ services:
     image: dantebarba/autoremove-torrents:1.0
     container_name: autoremove-torrents
     restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/autoremove-torrents/config.yml:/app/config.yml
     environment:
       CRON: ${CRON}
       OPTS: ${OPTS}
