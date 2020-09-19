@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  autoremove-torrents:
+    image: dantebarba/autoremove-torrents:1.0
+    container_name: autoremove-torrents
+    restart: unless-stopped
+    environment:
+      CRON: ${CRON}
+      OPTS: ${OPTS}
+    networks:
+      - main
+
+
+networks: 
+  main:
+    external: true
