@@ -13,4 +13,4 @@
 
 # docker clean up
 /usr/bin/curl --silent https://gist.githubusercontent.com/macropin/3d06cd315a07c9d8530f/raw | /bin/bash -s rm-dangling
-/usr/bin/docker restart $(docker ps -a -q)
+/usr/bin/docker restart $(docker ps -q)
