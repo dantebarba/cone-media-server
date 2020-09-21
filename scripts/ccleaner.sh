@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # apt and kernel cleaning
-/usr/bin/apt-get autoremove
-/usr/bin/apt-get --purge autoremove
+/usr/bin/apt-get autoremove -y
+/usr/bin/apt-get --purge autoremove -y
 /usr/bin/apt-get clean
 
 # mem cleaning
