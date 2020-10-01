@@ -5,7 +5,7 @@ services:
     image: rclone/rclone:beta
     container_name: plexdrive
     restart: unless-stopped
-    command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --db-cache-purge --buffer-size 256M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --timeout 5m"
+    command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 256M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --timeout 5m"
     volumes:
       - ${STORAGE_LOCATION}/gdrive:/config/rclone
       - /mnt/gdrive:/mnt/gdrive:shared
