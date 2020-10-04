@@ -7,6 +7,8 @@ services:
     environment: 
       QBT_USERNAME: ${QBT_USERNAME}
       QBT_PASSWORD: ${QBT_PASSWORD}
+      QBT_HOST: ${QBT_HOST}
+      QBT_PORT: ${QBT_PORT}
       CMD: "/bin/bash /Scripts/AddqBittorrentTrackers.sh ."
       TZ: ${DOCKER_TZ}
       CRON: ${TRACKER_CRON}
