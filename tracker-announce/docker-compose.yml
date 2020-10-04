@@ -1,0 +1,19 @@
+version: '3.7'  
+
+services:
+  tracker-announce:
+    image: dantebarba/torrent-scripts:latest
+    container_name: tracker-announce
+    environment: 
+      QBT_USERNAME: ${QBT_USERNAME}
+      QBT_PASSWORD: ${QBT_PASSWORD}
+      CMD: "/bin/bash /Scripts/AddqBittorrentTrackers.sh ."
+      TZ: ${DOCKER_TZ}
+      CRON: ${TRACKER_CRON}
+    restart: unless-stopped
+    networks:
+      - main
+
+networks:
+  main:
+    external: true
