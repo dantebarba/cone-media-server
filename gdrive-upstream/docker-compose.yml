@@ -7,7 +7,7 @@
       restart: unless-stopped
       volumes:
         - ${STORAGE_LOCATION}/qbittorrent/downloads/complete:/source
-        - ${STORAGE_LOCATION}/plexdrive:/config
+        - ${STORAGE_LOCATION}/gdrive:/config
       environment:
         SYNC_SRC: /source
         SYNC_DEST: ${GDRIVE_SERVICE}:/torrent/complete
