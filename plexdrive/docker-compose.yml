@@ -23,7 +23,7 @@ services:
 
   watchdrive:
     image: rclone/rclone:beta
-    container_name: plexdrive
+    container_name: watchdrive
     restart: unless-stopped
     command: "mount gdrive:/downloads/watch /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 0M --log-level ${LOG_LEVEL} --stats 10m --use-mmap --poll-interval 10s --dir-cache-time 72h"
     volumes:
@@ -43,7 +43,7 @@ services:
 
   mediadrive:
     image: rclone/rclone:beta
-    container_name: plexdrive
+    container_name: mediadrive
     restart: unless-stopped
     command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 0M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --dir-cache-time 72h"
     volumes:
