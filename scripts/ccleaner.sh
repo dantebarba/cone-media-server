@@ -14,5 +14,7 @@
 # docker clean up
 /usr/bin/echo "INFO: Removing dangling images"
 /usr/bin/curl --silent https://gist.githubusercontent.com/macropin/3d06cd315a07c9d8530f/raw | /bin/bash -s rm-dangling
+/usr/bin/echo "INFO: Restarting storage"
+/usr/bin/docker restart $(/usr/bin/docker ps -aq --filter 'label=group=storage')
 /usr/bin/echo "INFO: Restarting running containers"
-/usr/bin/docker restart $(/usr/bin/docker ps | /usr/bin/grep -v "plexdrive" | /usr/bin/awk 'NR>1 {print $1}')
+/usr/bin/docker restart $(/usr/bin/comm -2 -3 <(/usr/bin/docker ps -aq | /usr/bin/sort) <(/usr/bin/docker ps -aq --filter 'label=group=storage' | /usr/bin/sort)
