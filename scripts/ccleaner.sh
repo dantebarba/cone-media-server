@@ -14,7 +14,9 @@
 # docker clean up
 /usr/bin/echo "INFO: Removing dangling images"
 /usr/bin/curl --silent https://gist.githubusercontent.com/macropin/3d06cd315a07c9d8530f/raw | /bin/bash -s rm-dangling
-/usr/bin/echo "INFO: Restarting storage"
-/usr/bin/docker restart $(/usr/bin/docker ps -aq --filter 'label=group=storage')
-/usr/bin/echo "INFO: Restarting running containers"
-/usr/bin/docker restart $(/usr/bin/comm -2 -3 <(/usr/bin/docker ps -aq | /usr/bin/sort) <(/usr/bin/docker ps -aq --filter 'label=group=storage' | /usr/bin/sort)
+/usr/bin/echo "INFO: stopping all containers"
+/usr/bin/docker stop $(/usr/bin/docker ps -aq)
+/usr/bin/echo "INFO: Restarting virtual storage"
+/usr/bin/docker start $(/usr/bin/docker ps -aq --filter 'label=com.docker.compose.project=plexdrive')
+/usr/bin/echo "INFO: Restarting all containers containers"
+/usr/bin/docker start $(/usr/bin/comm -2 -3 <(/usr/bin/docker ps -aq | /usr/bin/sort) <(/usr/bin/docker ps -aq --filter 'label=com.docker.compose.project=plexdrive' | /usr/bin/sort))
