@@ -20,6 +20,8 @@ services:
       PUID: ${PUID}
       LOG_LEVEL: ${LOG_LEVEL}
       TZ: ${DOCKER_TZ}
+    labels:
+      - "group=storage"
 
   watchdrive:
     image: rclone/rclone:beta
@@ -40,6 +42,8 @@ services:
       PUID: ${PUID}
       LOG_LEVEL: ${LOG_LEVEL}
       TZ: ${DOCKER_TZ}
+    labels:
+      - "group=storage"
 
   mediadrive:
     image: rclone/rclone:beta
@@ -60,3 +64,5 @@ services:
       PUID: ${PUID}
       LOG_LEVEL: ${LOG_LEVEL}
       TZ: ${DOCKER_TZ}
+    labels:
+      - "group=storage"
