@@ -5,7 +5,7 @@ services:
     image: rclone/rclone:beta
     container_name: plexdrive
     restart: unless-stopped
-    command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 256M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --dir-cache-time 72h"
+    command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 256M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --dir-cache-time 72h --poll-interval 10s"
     volumes:
       - ${STORAGE_LOCATION}/gdrive:/config/rclone
       - /mnt/gdrive:/mnt/gdrive:shared
@@ -31,28 +31,6 @@ services:
     volumes:
       - ${STORAGE_LOCATION}/gdrive:/config/rclone
       - /mnt/watch:/mnt/gdrive:shared
-    privileged: true
-    devices:
-      - /dev/fuse
-    cap_add:
-      - MKNOD
-      - SYS_ADMIN
-    environment:
-      PGID: ${PGID}
-      PUID: ${PUID}
-      LOG_LEVEL: ${LOG_LEVEL}
-      TZ: ${DOCKER_TZ}
-    labels:
-      - "group=storage"
-
-  mediadrive:
-    image: rclone/rclone:beta
-    container_name: mediadrive
-    restart: unless-stopped
-    command: "mount gdrive: /mnt/gdrive --config=/config/rclone/rclone.conf --allow-other --gid ${PGID} --uid ${PUID} --buffer-size 0M --log-level ${LOG_LEVEL} --stats 2m --use-mmap --dir-cache-time 72h"
-    volumes:
-      - ${STORAGE_LOCATION}/gdrive:/config/rclone
-      - /mnt/media:/mnt/gdrive:shared
     privileged: true
     devices:
       - /dev/fuse
