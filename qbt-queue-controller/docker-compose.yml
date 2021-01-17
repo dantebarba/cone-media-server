@@ -12,7 +12,7 @@ services:
       CRON: ${CRON}
       TZ: ${DOCKER_TZ}
     volumes:
-      ${STORAGE_LOCATION}/qbt-queue-controller:/var/log
+      - ${STORAGE_LOCATION}/qbt-queue-controller:/var/log
     networks:
       - main
 
