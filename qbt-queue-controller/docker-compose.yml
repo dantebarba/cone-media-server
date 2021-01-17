@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  qbt-queue-controller:
+    image: dantebarba/qbt-queue-controller:latest
+    restart: unless-stopped
+    container_name: qbt-queue-controller
+    environment:
+      QBT_USERNAME: ${QBT_USERNAME}
+      QBT_PASS: ${QBT_PASS}
+      LOG_LEVEL: ${LOG_LEVEL}
+      CRON: ${CRON}
+      TZ: ${DOCKER_TZ}
+    volumes:
+      ${STORAGE_LOCATION}/qbt-queue-controller:/var/log
+    networks:
+      - main
+
+
+networks: 
+  main:
+    external: true
