@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   autoremove-torrents:
-    image: dantebarba/autoremove-torrents:1.7.0-b3
+    image: dantebarba/autoremove-torrents:1.7.0
     container_name: autoremove-torrents
     restart: unless-stopped
     volumes:
