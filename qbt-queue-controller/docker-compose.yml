@@ -10,6 +10,7 @@ services:
       QBT_PASS: ${QBT_PASS}
       LOG_LEVEL: ${LOG_LEVEL}
       CRON: ${CRON}
+      HEALTHCHECK_URL: ${HEALTHCHECK_URL}
       TZ: ${DOCKER_TZ}
     volumes:
       - ${STORAGE_LOCATION}/qbt-queue-controller:/var/log
