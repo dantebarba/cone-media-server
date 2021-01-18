@@ -31,5 +31,6 @@
         PREFIX: ${SA_PREFIX} # the prefix with path included before the SA Number.
         PUID: ${PUID}
         PGID: ${PGID}
+        TZ: ${DOCKER_TZ}
         # SAs should be named with the following schema: my-sa-{number}.json where number is the SA designated number.
         # this number should be sequential, from 1 to n.
