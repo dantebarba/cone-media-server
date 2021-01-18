@@ -18,3 +18,18 @@
         CRON: ${MOVE_CRON}
         UID: ${PUID}
         GID: ${PGID}
+
+    rclone-sa-autoswap:
+      image: dantebarba/rclone-sa-autoswap:latest
+      container_name: rclone-sa-autoswap
+      restart: unless-stopped
+      volumes:
+        - ${STORAGE_LOCATION}/gdrive:/config
+      environment:
+        CRON: ${AUTOSWAP_CRON} # will renew the SA number once every hour
+        MAX_NUMBER: ${SA_NUMBER} # the number of SAs you generated
+        PREFIX: ${SA_PREFIX} # the prefix with path included before the SA Number.
+        PUID: ${PUID}
+        PGID: ${PGID}
+        # SAs should be named with the following schema: my-sa-{number}.json where number is the SA designated number.
+        # this number should be sequential, from 1 to n.
