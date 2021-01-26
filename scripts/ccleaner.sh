@@ -10,6 +10,7 @@
 /bin/sync && /bin/echo 3 | /usr/bin/tee /proc/sys/vm/drop_caches
 
 # logs cleaning
+/usr/bin/echo "INFO: Removing log files and junk files"
 /usr/bin/docker exec -it tracker-announce rm -rf /var/log/crond.log
 /usr/bin/rm -rf /root/docker/qbittorrent/data/qBittorrent/logs/*
 /usr/bin/rm -rf /root/docker/plex/Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder/*
