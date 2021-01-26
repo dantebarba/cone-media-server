@@ -19,13 +19,6 @@ services:
       - "--docker"
       - "--docker.exposedbydefault=false"
       - "--docker.watch=true"
-      - "--accessLog.filePath=/etc/traefik/access.log"
-      - "--accessLog.format=json"
-      - "--accessLog.filters.statusCodes=200,300-302"
-      - "--accessLog.filters.retryAttempts=true"
-      - "--accessLog.filters.minDuration=10ms"
-      - "--accessLog.fields.defaultMode=keep"
-      - "--accessLog.fields.headers.defaultMode=keep"
     ports:
       - "80:80"
       - "443:443"
