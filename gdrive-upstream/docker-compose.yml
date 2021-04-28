@@ -19,6 +19,24 @@
         UID: ${PUID}
         GID: ${PGID}
 
+    gdrive-move-nzb:
+      image: pfidr/rclone:latest
+      container_name: gdrive-move-nzb
+      restart: unless-stopped
+      volumes:
+        - ${STORAGE_LOCATION}/downloads/nzb/complete:/source
+        - ${STORAGE_LOCATION}/gdrive:/config
+      environment:
+        SYNC_SRC: /source
+        SYNC_DEST: ${GDRIVE_SERVICE}:/nzb/complete
+        SYNC_OPTS: '--log-level ${LOG_LEVEL} --delete-empty-src-dirs --stats 120s --buffer-size 128M --drive-chunk-size 128M --use-mmap --timeout 1m --exclude _unpack/'
+        RCLONE_DIR_CHECK_SKIP: 'true'
+        RCLONE_CMD: move
+        TZ: ${DOCKER_TZ}
+        CRON: ${MOVE_CRON}
+        UID: ${PUID}
+        GID: ${PGID}
+
     rclone-sa-autoswap:
       image: dantebarba/rclone-sa-autoswap:latest
       container_name: rclone-sa-autoswap
