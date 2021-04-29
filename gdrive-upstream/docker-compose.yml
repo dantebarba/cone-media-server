@@ -24,7 +24,7 @@
       container_name: gdrive-move-nzb
       restart: unless-stopped
       volumes:
-        - ${STORAGE_LOCATION}/downloads/nzb/complete:/source
+        - ${STORAGE_LOCATION}/nzbget/downloads/completed:/source
         - ${STORAGE_LOCATION}/gdrive:/config
       environment:
         SYNC_SRC: /source
