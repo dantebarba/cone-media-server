@@ -10,6 +10,9 @@ services:
       QBT_PASS: ${QBT_PASS}
       LOG_LEVEL: ${LOG_LEVEL}
       INTERVAL: ${INTERVAL}
+      NZB_HOST: ${NZB_HOST}
+      NZB_USERNAME: ${NZB_USERNAME}
+      NZB_PASSWORD: ${NZB_PASSWORD}
       HEALTHCHECK_URL: ${HEALTHCHECK_URL}
       TZ: ${DOCKER_TZ}
     volumes:
