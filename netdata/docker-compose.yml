@@ -4,16 +4,38 @@ services:
   netdata:
     image: netdata/netdata
     container_name: netdata
-    hostname: media.***REMOVED*** # set to fqdn of host
-    ports:
-      - 19999:19999
+    hostname: crown.***REMOVED*** # set to fqdn of host
     cap_add:
       - SYS_PTRACE
-    environment: 
-      PGID: '999'
+    environment:
+      PUID: 1000
+      PGID: 1000
     security_opt:
       - apparmor:unconfined
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.docker.network=main"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:netdata.${DOMAIN_URL}"
+      - "traefik.basic.port=19999"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.backend.healthcheck.path=/"
+      - "traefik.backend.healthcheck.interval=30s"
+      - "traefik.frontend.auth.forward.address=${OAUTH_FORWARD_URL}"
+      - "traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User"
+      - "traefik.frontend.auth.forward.trustForwardHeader=true"
+      - traefik.frontend.headers.frameDeny=false
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.isDevelopment=false
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.forceSTSHeader=false
+      - traefik.frontend.headers.contentTypeNosniff=true
+    networks:
+      - main
+  
+networks: 
+  main:
+    external: true
