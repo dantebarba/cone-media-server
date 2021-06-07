@@ -1,4 +1,4 @@
-version: '3.3'  
+version: '3.7'  
   
 services:
   load-balancer:
@@ -6,19 +6,26 @@ services:
     container_name: load-balancer
     restart: unless-stopped
     command:
-      - "--acme"
-      - "--acme.storage=acme.json"
-      - "--acme.entryPoint=https"
-      - "--acme.dnsChallenge.provider=cloudflare"
-      - "--acme.dnsChallenge.delaybeforecheck=300"
-      - "--acme.domains=${DOMAIN_URL}"
-      - "--acme.domains=${WORDPRESS_URL}"
-      - "--acme.onHostRule=true"
-      - "--acme.acmelogging=true"
-      - "--acme.email=${ACME_EMAIL}"
-      - "--docker"
-      - "--docker.exposedbydefault=false"
-      - "--docker.watch=true"
+      - "--api=true"
+      - "--api.insecure=true"
+      - "--log.level=TRACE"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--serverstransport.insecureskipverify=true"
+      # - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
+      # - "--certificatesresolvers.letsencrypt.acme.entryPoint=https"
+      # - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.provider=cloudflare"
+      # - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.delaybeforecheck=300"
+      # - "--certificatesresolvers.letsencrypt.acme.domains=${DOMAIN_URL}"
+      # - "--certificatesresolvers.letsencrypt.acme.domains=${WORDPRESS_URL}"
+      # - "--certificatesresolvers.letsencrypt.acme.onHostRule=true"
+      # - "--certificatesresolvers.letsencrypt.acme.acmelogging=true"
+      # - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.watch"
+      - "--providers.docker.network=main"
+      - "--providers.docker.defaultRule=Host(`{{ .Name }}.${DOMAIN_URL}`)"
     ports:
       - "80:80"
       - "443:443"
@@ -28,21 +35,35 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${STORAGE_LOCATION}/traefik:/etc/traefik
-      - ./traefik.toml:/traefik.toml
-      - ./acme.json:/acme.json
     networks:
       - main
     labels:
+      # global redirect to https
       - "traefik.enable=true"
-      - "traefik.port=8080"
-      - "traefik.backend=traefik"
-      - "traefik.docker.network=main"
-      - "traefik.frontend.entryPoints=http,https"
-      - "traefik.frontend.rule=Host:traefik.${DOMAIN_URL}"
-      - traefik.http.middlewares.traefik-forward-auth.forwardauth.address=${OAUTH_FORWARD_URL}
-      - traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders==X-Forwarded-User
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_URL}`)"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=${OAUTH_FORWARD_URL}"
+      - traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User
       - traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true
-      
+      - "traefik.docker.network=main"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+ 
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: containous/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${DOMAIN_URL}`)"
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.docker.network=main"
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+    networks:
+      - main
+    
 networks:
   main:
     external: true
