@@ -14,7 +14,7 @@ services:
       - "traefik.port=80"
       - "traefik.backend=speedtest"
       - "traefik.frontend.entryPoints=http,https"
-      - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL}"
+      - "traefik.frontend.rule=Host:speedtest.${DOMAIN_URL},speedtest.crown.${DOMAIN_URL}"
     networks:
       - main
 
