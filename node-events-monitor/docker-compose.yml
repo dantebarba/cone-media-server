@@ -12,8 +12,6 @@ services:
       - "traefik.basic.frontend.rule=Host:events.${DOMAIN_URL}"
       - "traefik.basic.port=80"
       - "traefik.frontend.entryPoints=http,https"
-      - "traefik.backend.healthcheck.path=/"
-      - "traefik.backend.healthcheck.interval=30s"
       - traefik.frontend.headers.frameDeny=false
       - traefik.frontend.headers.browserXSSFilter=true
       - traefik.frontend.headers.isDevelopment=false
