@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  netdata:
+    image: dantebarba/node-events-monitor:latest
+    container_name: node-events-monitor
+    environment:
+      PUID: 1000
+      PGID: 1000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.docker.network=main"
+      - "traefik.enable=true"
+      - "traefik.basic.frontend.rule=Host:events.${DOMAIN_URL}"
+      - "traefik.basic.port=5000"
+      - "traefik.frontend.entryPoints=http,https"
+      - "traefik.backend.healthcheck.path=/"
+      - "traefik.backend.healthcheck.interval=30s"
+      - traefik.frontend.headers.frameDeny=false
+      - traefik.frontend.headers.browserXSSFilter=true
+      - traefik.frontend.headers.isDevelopment=false
+      - traefik.frontend.headers.STSSeconds=315360000
+      - traefik.frontend.headers.forceSTSHeader=false
+      - traefik.frontend.headers.contentTypeNosniff=true
+    networks:
+      - main
+  
+networks: 
+  main:
+    external: true
