@@ -4,6 +4,8 @@ services:
   node-events-monitor:
     image: dantebarba/node-events-monitor:latest
     container_name: node-events-monitor
+    volumes:
+      - ./server.json:/app/server.json
     labels:
       - "traefik.docker.network=main"
       - "traefik.enable=true"
