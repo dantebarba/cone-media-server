@@ -2,5 +2,5 @@ version: '3.7'
 
 services:
   node-events-monitor:
-    image: dantebarba/node-events-monitor:latest
+    image: rclone/rclone:latest
     container_name: node-events-monitor
