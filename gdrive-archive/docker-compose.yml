@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  gdrive-move-watch:
+    image: pfidr/rclone:1.56.2
+    container_name: gdrive-move-watch
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/gdrive:/config
+    labels:
+      - "group=maintenance"
+    environment:
+      SYNC_SRC: ${GDRIVE_SERVICE}:/watch
+      SYNC_DEST: ${GDRIVE_SERVICE}:/watch_archive/
+      SYNC_OPTS: '--log-level ${LOG_LEVEL} --buffer-size 128M --drive-chunk-size 128M --use-mmap --timeout 1m --transfers=2 --checkers=2 --min-age=14d'
+      RCLONE_DIR_CHECK_SKIP: 'true'
+      RCLONE_CMD: move
+      TZ: ${DOCKER_TZ}
+      CRON: ${MOVE_CRON}
+      UID: ${PUID}
+      GID: ${PGID}
+
+  gdrive-delete-torrents:
+    image: pfidr/rclone:1.56.2
+    container_name: gdrive-delete-torrents
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/gdrive:/config
+      - ./rclone_mod_entrypoint.sh:/entrypoint.sh
+    labels:
+      - "group=maintenance"
+    environment:
+      SYNC_SRC: ${GDRIVE_SERVICE}:/torrent/complete/
+      SYNC_OPTS: '--log-level ${LOG_LEVEL} --min-age=1d && rclone rmdirs ${GDRIVE_SERVICE}:/torrent/complete/ --config /config/rclone.conf --leave-root'
+      RCLONE_DIR_CHECK_SKIP: 'true'
+      RCLONE_CMD: delete
+      TZ: ${DOCKER_TZ}
+      CRON: ${MOVE_CRON}
+      UID: ${PUID}
+      GID: ${PGID}
+      FORCE_SYNC: '1'
+
+  gdrive-delete-nzb:
+    image: pfidr/rclone:1.56.2
+    container_name: gdrive-delete-nzb
+    restart: unless-stopped
+    volumes:
+      - ${STORAGE_LOCATION}/gdrive:/config
+      - ./rclone_mod_entrypoint.sh:/entrypoint.sh
+    labels:
+      - "group=maintenance"
+    environment:
+      SYNC_SRC: ${GDRIVE_SERVICE}:/nzb/complete/
+      SYNC_OPTS: '--log-level ${LOG_LEVEL} --min-age=1d && rclone rmdirs ${GDRIVE_SERVICE}:/nzb/complete/ --config /config/rclone.conf --leave-root'
+      RCLONE_DIR_CHECK_SKIP: 'true'
+      RCLONE_CMD: delete
+      TZ: ${DOCKER_TZ}
+      CRON: ${MOVE_CRON}
+      UID: ${PUID}
+      GID: ${PGID}
+      FORCE_SYNC: '1'
