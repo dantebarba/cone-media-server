@@ -2,25 +2,14 @@ version: '3.7'
 
 services:
   node-events-monitor:
-    image: dantebarba/node-events-monitor:latest
+    image: dantebarba/simple-cron-scheduler:latest
     container_name: node-events-monitor
     volumes:
-      - ./servers.json:/app/servers.json
-    labels:
-      - "traefik.docker.network=main"
-      - "traefik.enable=true"
-      - "traefik.basic.frontend.rule=Host:events.${DOMAIN_URL}"
-      - "traefik.basic.port=80"
-      - "traefik.frontend.entryPoints=http,https"
-      - traefik.frontend.headers.frameDeny=false
-      - traefik.frontend.headers.browserXSSFilter=true
-      - traefik.frontend.headers.isDevelopment=false
-      - traefik.frontend.headers.STSSeconds=315360000
-      - traefik.frontend.headers.forceSTSHeader=false
-      - traefik.frontend.headers.contentTypeNosniff=true
-    networks:
-      - main
-  
-networks: 
-  main:
-    external: true
+      - ./script.sh:/app/script.sh
+    environment:
+      TZ: 'America/Argentina/Buenos_Aires'
+      CRON: '* * * * *'
+      PUID: 1000
+      PGID: 1000
+      WOL_DOMAIN: ${WOL_DOMAIN}
+      WOL_MAC: ${WOL_MAC}
