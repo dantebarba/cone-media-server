@@ -8,6 +8,9 @@ services:
     restart: on-failure:2
     volumes:
       - ${STORAGE_LOCATION}/plextraktsync:/app/config
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.plextraktsync.schedule: "${CRON}"
   
   scheduler:
     image: mcuadros/ofelia:latest
@@ -17,6 +20,3 @@ services:
     command: daemon --docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      ofelia.job-run.plextraktsync.schedule: "${CRON}"
-      ofelia.job-run.plextraktsync.container: "plextraktsync"
