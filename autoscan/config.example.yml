@@ -1,0 +1,19 @@
+# port for Autoscan webhooks to listen on
+port: 3030
+
+triggers:
+  # The manual trigger is always enabled, the config only adjusts its priority and the rewrite rules.
+  manual:
+    priority: 5
+
+  radarr:
+    - name: radarr   # /triggers/radarr
+      priority: 1
+    - name: radarr4k # /triggers/radarr4k
+      priority: 2
+    - name: bazarr
+      priority: 3
+
+  sonarr:
+    - name: sonarr # /triggers/sonarr-docker
+      priority: 4

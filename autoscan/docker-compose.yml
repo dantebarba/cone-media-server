@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  autoscan:
+    image: cloudb0x/autoscan
+    container_name: autoscan
+    restart: unless-stopped
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+    volumes:
+      - "${STORAGE_LOCATION}/autoscan:/config"
+    networks:
+      - main
+
+networks:
+  main:
+    external: true
