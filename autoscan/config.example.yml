@@ -11,9 +11,23 @@ triggers:
       priority: 1
     - name: radarr4k # /triggers/radarr4k
       priority: 2
-    - name: bazarr
-      priority: 3
 
   sonarr:
     - name: sonarr # /triggers/sonarr-docker
       priority: 4
+
+targets:
+  plex:
+    - url: http://plex:32400 # URL of your Plex server
+      token: XXXX # Plex API Token
+
+# override the minimum age to 30 minutes:
+minimum-age: 30m
+
+# override the delay between processed scans:
+# defaults to 5 seconds
+scan-delay: 15s
+
+# override the interval scan stats are displayed:
+# defaults to 1 hour / 0s to disable
+scan-stats: 1m
