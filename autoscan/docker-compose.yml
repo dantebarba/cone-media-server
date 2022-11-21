@@ -20,6 +20,8 @@ services:
     environment:
       PGID: $PGID
       PUID: $PUID
+      PLEX_URL: $PLEX_URL
+      PLEX_TOKEN: $PLEX_TOKEN
     networks:
       - main
 
