@@ -12,6 +12,8 @@ services:
       - "${STORAGE_LOCATION}/autoscan:/config"
     networks:
       - main
+    depends_on:
+      - autoscan-adapter
 
   autoscan-adapter:
     image: dantebarba/autoscan-adapter:latest
