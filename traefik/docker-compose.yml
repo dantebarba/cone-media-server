@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   load-balancer:
-    image: traefik:v2.4
+    image: traefik:v2.5.4
     container_name: load-balancer
     restart: unless-stopped
     command:
