@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  node-events-monitor:
+    image: dantebarba/simple-cron-scheduler:latest
+    container_name: node-events-monitor
+    volumes:
+      - ./script.sh:/app/script.sh
+    environment:
+      TZ: 'America/Argentina/Buenos_Aires'
+      CRON: '* * * * *'
+      PUID: 1000
+      PGID: 1000
+      WOL_DOMAIN: ${WOL_DOMAIN}
+      WOL_MAC: ${WOL_MAC}

@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  autoscan:
+    image: cloudb0x/autoscan
+    container_name: autoscan
+    restart: unless-stopped
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+    volumes:
+      - "${STORAGE_LOCATION}/autoscan:/config"
+    networks:
+      - main
+    depends_on:
+      - autoscan-adapter
+
+  autoscan-adapter:
+    image: dantebarba/autoscan-adapter:latest
+    container_name: autoscan-adapter
+    restart: unless-stopped
+    environment:
+      PGID: $PGID
+      PUID: $PUID
+      PLEX_URL: $PLEX_URL
+      PLEX_TOKEN: $PLEX_TOKEN
+    networks:
+      - main
+
+networks:
+  main:
+    external: true

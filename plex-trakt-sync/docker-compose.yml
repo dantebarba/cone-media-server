@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+
+  plextraktsync:
+    image: ghcr.io/taxel/plextraktsync
+    container_name: plextraktsync
+    restart: on-failure:2
+    volumes:
+      - ${STORAGE_LOCATION}/plextraktsync:/app/config
+
+  scheduler:
+    image: mcuadros/ofelia:latest
+    container_name: scheduler
+    depends_on:
+      - plextraktsync
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      ofelia.job-run.plextraktsync.schedule: "${CRON}"
+      ofelia.job-run.plextraktsync.container: "plextraktsync"
