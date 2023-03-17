@@ -11,12 +11,13 @@ services:
       PROVIDERS_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
       PROVIDERS_OIDC_ISSUER_URL: ${OIDC_ISSUER}
-      SECRET: secret_key
+      SECRET: ${SECRET_KEY}
       CONFIG: /config.ini
       AUTH_HOST: ${AUTH_HOST}
       COOKIE_DOMAIN: ${COOKIE_DOMAINS}
       WHITELIST: ${WHITELIST}
       LOG_LEVEL: ${AUTH_LOGLEVEL}
+      INSECURE_COOKIE: "true"
     volumes:
       - ./config.ini:/config.ini
     labels:
