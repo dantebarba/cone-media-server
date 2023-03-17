@@ -2,31 +2,33 @@ version: '3.3'
 
 services:
   traefik-forward-auth:
-      image: thomseddon/traefik-forward-auth:2.2.0
-      container_name: traefik-forward-auth
-      restart: unless-stopped
-      networks:
-        - main
-      environment:
-        PROVIDERS_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-        PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
-        PROVIDERS_OIDC_ISSUER_URL: ${OIDC_ISSUER}
-        SECRET: secret_key
-        CONFIG: /config.ini
-        AUTH_HOST: ${AUTH_HOST}
-        COOKIE_DOMAIN: ${COOKIE_DOMAINS}
-        WHITELIST: ${WHITELIST}
-        LOG_LEVEL: ${AUTH_LOGLEVEL}
-      volumes:
-        - ./config.ini:/config.ini
-      labels:
-        - "traefik.enable=true"
-        - "traefik.backend=traefik-forward-auth"
-        - "traefik.frontend.entryPoints=http,https"
-        - "traefik.frontend.rule=Host:auth.${DOMAIN_URL}"
-        - "traefik.port=4181"
-        - "traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181"
-        - "traefik.frontend.auth.forward.trustForwardHeader=true"
+    image: thomseddon/traefik-forward-auth:2.2.0
+    container_name: traefik-forward-auth
+    restart: unless-stopped
+    networks:
+      - main
+    environment:
+      PROVIDERS_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      PROVIDERS_GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      PROVIDERS_OIDC_ISSUER_URL: ${OIDC_ISSUER}
+      SECRET: secret_key
+      CONFIG: /config.ini
+      AUTH_HOST: ${AUTH_HOST}
+      COOKIE_DOMAIN: ${COOKIE_DOMAINS}
+      WHITELIST: ${WHITELIST}
+      LOG_LEVEL: ${AUTH_LOGLEVEL}
+    volumes:
+      - ./config.ini:/config.ini
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-forward-auth.entrypoints=web,websecure"
+      - "traefik.http.routers.traefik-forward-auth.rule=Host(`auth.${DOMAIN_URL}`)"
+      - "traefik.http.routers.traefik-forward-auth.service=traefik-forward-auth"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true"
+      - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
+      - "traefik.docker.network=main"
 
 networks:
   main:

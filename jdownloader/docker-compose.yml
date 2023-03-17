@@ -13,13 +13,12 @@ services:
       - ${STORAGE_LOCATION}/jdownloader/config:/config:rw
     labels:
       - "traefik.enable=true"
-      - "traefik.port=5800"
-      - "traefik.backend=jdownloader"
-      - "traefik.frontend.entryPoints=http,https"
-      - "traefik.frontend.rule=Host:downloads.${DOMAIN_URL}"
-      - traefik.frontend.auth.forward.address=https://auth.${DOMAIN_URL}
-      - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
-      - traefik.frontend.auth.forward.trustForwardHeader=true
+      - "traefik.docker.network=main"
+      - "traefik.http.routers.jdownloader.rule=Host(`jdownloader.${DOMAIN_URL}`)"
+      - "traefik.http.routers.jdownloader.tls=true"
+      - "traefik.http.routers.jdownloader.entrypoints=websecure,web"
+      - "traefik.http.routers.jdownloader.middlewares=traefik-forward-auth,tls-headers"
+      - "traefik.http.services.jdownloader.loadbalancer.server.port=80"
 
 networks:
   main:

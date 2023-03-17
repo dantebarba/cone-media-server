@@ -1,31 +1,24 @@
-version: '3.7'  
-  
+version: '3.8'
+
 services:
   load-balancer:
     image: traefik:v2.4
     container_name: load-balancer
     restart: unless-stopped
     command:
-      - "--api=true"
+      - "--api.dashboard=true"
       - "--api.insecure=true"
-      - "--log.level=TRACE"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--log.level=DEBUG"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-      - "--serverstransport.insecureskipverify=true"
-      # - "--certificatesresolvers.letsencrypt.acme.storage=acme.json"
-      # - "--certificatesresolvers.letsencrypt.acme.entryPoint=https"
-      # - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.provider=cloudflare"
-      # - "--certificatesresolvers.letsencrypt.acme.dnsChallenge.delaybeforecheck=300"
-      # - "--certificatesresolvers.letsencrypt.acme.domains=${DOMAIN_URL}"
-      # - "--certificatesresolvers.letsencrypt.acme.domains=${WORDPRESS_URL}"
-      # - "--certificatesresolvers.letsencrypt.acme.onHostRule=true"
-      # - "--certificatesresolvers.letsencrypt.acme.acmelogging=true"
-      # - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.watch"
-      - "--providers.docker.network=main"
-      - "--providers.docker.defaultRule=Host(`{{ .Name }}.${DOMAIN_URL}`)"
+      - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+      - "--certificatesresolvers.myresolver.acme.httpChallenge.entryPoint=web"
+      - "--certificatesresolvers.myresolver.acme.dnsChallenge.provider=cloudflare"
+      - "--certificatesresolvers.myresolver.acme.dnsChallenge.delayBeforeCheck=300"
+      - "--certificatesresolvers.myresolver.acme.tlsChallenge=false"
     ports:
       - "80:80"
       - "443:443"
@@ -38,32 +31,36 @@ services:
     networks:
       - main
     labels:
-      # global redirect to https
       - "traefik.enable=true"
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
-      - "traefik.http.routers.http-catchall.entrypoints=web"
-      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
       - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_URL}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=${OAUTH_FORWARD_URL}"
-      - traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User
-      - traefik.http.middlewares.traefik-forward-auth.forwardauth.trustForwardHeader=true
-      - "traefik.docker.network=main"
+      - "traefik.http.routers.traefik.tls.certresolver=myresolver"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
- 
+      - "traefik.docker.network=main"
+      - "traefik.http.middlewares.tls-headers.headers.frameDeny=false"
+      - "traefik.http.middlewares.tls-headers.headers.browserXSSFilter=true"
+      - "traefik.http.middlewares.tls-headers.headers.isDevelopment=false"
+      - "traefik.http.middlewares.tls-headers.headers.STSSeconds=315360000"
+      - "traefik.http.middlewares.tls-headers.headers.forceSTSHeader=false"
+      - "traefik.http.middlewares.tls-headers.headers.contentTypeNosniff=true"
+
+
   whoami:
     # A container that exposes an API to show its IP address
     image: containous/whoami
+    container_name: whoami
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.${DOMAIN_URL}`)"
       - "traefik.http.routers.whoami.tls=true"
       - "traefik.docker.network=main"
-      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+      - "traefik.http.routers.whoami.entrypoints=websecure,web"
+      - "traefik.http.routers.whoami.middlewares=traefik-forward-auth,tls-headers"
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
     networks:
       - main
-    
+
 networks:
   main:
     external: true
