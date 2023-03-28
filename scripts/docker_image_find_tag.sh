@@ -148,6 +148,8 @@ function do_curl_get () {
   local URL="$1"
   shift
   local array=("$@")
+  echo "URL: $URL"
+  echo "array: ${array[@]}"
   # echo -e "URL:\n$URL"
   # echo -e "{array[@]}:\n${array[@]}"
   HTTP_RESPONSE="$(curl -sSL --write-out "HTTPSTATUS:%{http_code}" \
@@ -175,7 +177,6 @@ CURL_AUTH=()
 CURL_URL="$REGISTRY_AUTH/token?service=${REGISTRY_SERVICE##*(//)}&scope=repository:$IMAGE_NAME:pull"
 do_curl_get "$CURL_URL" "${CURL_AUTH[@]}"
 AUTH=$(echo "$HTTP_BODY" | jq --raw-output .token)
-echo $AUTH
 
 # Get Tags
 CURL_AUTH=( -H "Authorization: Bearer $AUTH" )
