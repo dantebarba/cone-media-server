@@ -175,6 +175,7 @@ CURL_AUTH=()
 CURL_URL="$REGISTRY_AUTH/token?service=${REGISTRY_SERVICE##*(//)}&scope=repository:$IMAGE_NAME:pull"
 do_curl_get "$CURL_URL" "${CURL_AUTH[@]}"
 AUTH=$(echo "$HTTP_BODY" | jq --raw-output .token)
+echo $AUTH
 
 # Get Tags
 CURL_AUTH=( -H "Authorization: Bearer $AUTH" )
