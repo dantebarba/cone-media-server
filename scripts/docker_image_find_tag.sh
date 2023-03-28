@@ -13,10 +13,9 @@ set -ef -o pipefail
 
 REGISTRY=${REGISTRY:-"https://index.docker.io/v2"}
 REGISTRY_AUTH=${REGISTRY_AUTH:-"https://auth.docker.io"}
-REGISTRY_SERVICE=${REGISTRY_SERVICE:-"registry.docker.io"}   
-# IMAGE_NAME=library/traefik
-IMAGE_NAME=${IMAGE_NAME:-""}
+REGISTRY_SERVICE=${REGISTRY_SERVICE:-"registry.docker.io"} 
 IMAGE_ID_SHORT=${IMAGE_ID_SHORT:-""}
+IMAGE_NAME=${IMAGE_NAME:-""}
 # IMAGE_ID_SHORT="96c63a7d3e50"
 IMAGE_ID_TARGET=""
 IMAGE_ID_LONG=${IMAGE_ID_LONG:-""}
@@ -86,25 +85,24 @@ shift $((OPTIND-1))
 
 # echo "VERBOSE=$VERBOSE, TARGET='$TARGET', Leftovers: $@"
 
-if [ -z "$IMAGE_NAME" ]; then
-  echo "Requires Image Name"
-  show_help
-  exit 1;
-else
-  if [[ "$VERBOSE" -eq 1 ]]; then
-    echo "Using IMAGE_NAME: $IMAGE_NAME"
-  fi
-  # add library/ if no /. (Which is _ aka official image like hub.docker.com/_/traefik)
-  # Official images are in "library/"
-  if [[ "$IMAGE_NAME" != *"/"* ]]; then
-      IMAGE_NAME="library/$IMAGE_NAME"
-  fi
-fi
 
 if [ -z "$IMAGE_ID_SHORT" ] && [ -z "$IMAGE_ID_LONG" ]; then
   echo "Requires Image ID or Image ID (Long)"
   show_help
   exit 1;
+fi
+
+if [ -z "$IMAGE_NAME" ]; then
+  IMAGE_NAME=$(docker image inspect --format '{{json .}}' "$IMAGE_ID_SHORT" | jq -r '. | .RepoTags[0]' | cut -d: -f1)
+fi
+
+if [[ "$VERBOSE" -eq 1 ]]; then
+  echo "Using IMAGE_NAME: $IMAGE_NAME"
+fi
+# add library/ if no /. (Which is _ aka official image like hub.docker.com/_/traefik)
+# Official images are in "library/"
+if [[ "$IMAGE_NAME" != *"/"* ]]; then
+    IMAGE_NAME="library/$IMAGE_NAME"
 fi
 
 if [[ "$VERBOSE" -eq 1 ]]; then
