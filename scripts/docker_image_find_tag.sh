@@ -152,10 +152,12 @@ function do_curl_get () {
   echo "array: ${array[@]}"
   # echo -e "URL:\n$URL"
   # echo -e "{array[@]}:\n${array[@]}"
-  HTTP_RESPONSE="$(curl -sSL --write-out "HTTPSTATUS:%{http_code}" \
+  CURL_COMMAND=$(curl -sSL --write-out "HTTPSTATUS:%{http_code}" \
     -H "Content-Type: application/json;charset=UTF-8" \
     "${array[@]}" \
-    -X GET "$URL")"
+    -X GET "$URL")
+  echo $CURL_COMMAND
+  HTTP_RESPONSE=$CURL_COMMAND
   # echo $HTTP_RESPONSE
   HTTP_BODY=$(echo "$HTTP_RESPONSE" | sed -E 's/HTTPSTATUS\:[0-9]{3}$//')
   HTTP_STATUS=$(echo "$HTTP_RESPONSE" | tr -d '\n' | sed -E 's/.*HTTPSTATUS:([0-9]{3})$/\1/')
