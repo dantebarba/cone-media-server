@@ -23,7 +23,7 @@ backup_filename="${hostname}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
 
 # Create a dump of /etc/environment
 etc_env_dump="${tmpdir}/etc_environment_dump.txt"
-env > "${etc_env_dump}"
+cat /etc/environment > "${etc_env_dump}"
 
 # Backup the crontab to a file in the temporary directory
 crontab_file="${tmpdir}/crontab.txt"
