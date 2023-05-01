@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Check if the correct number of arguments were supplied
 if [ $# -ne 2 ]; then
   echo "Usage: $0 <source_directory> <target_directory>"
@@ -17,10 +19,18 @@ tmpdir=$(mktemp -d)
 hostname=$(hostname)
 
 # Create the backup filename using the hostname and current date
-backup_filename="backup_${hostname}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
+backup_filename="${hostname}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
+
+# Create a dump of /etc/environment
+etc_env_dump="${tmpdir}/etc_environment_dump.txt"
+env > "${etc_env_dump}"
+
+# Backup the crontab to a file in the temporary directory
+crontab_file="${tmpdir}/crontab.txt"
+crontab -l > "${crontab_file}"
 
 # Create the backup file in the temporary directory
-tar cf - "${srcdir}" -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
+tar --add-file="${etc_env_dump}" --add-file="${crontab_file}" cf - "${srcdir}" -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
 
 # Move the backup file to the target directory
 mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
