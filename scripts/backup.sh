@@ -30,7 +30,7 @@ crontab_file="${tmpdir}/crontab.txt"
 crontab -l > "${crontab_file}"
 
 # Create the backup file in the temporary directory
-tar --add-file="${etc_env_dump}" --add-file="${crontab_file}" cf - "${srcdir}" -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
+tar cf --add-file="${etc_env_dump}" --add-file="${crontab_file}" - "${srcdir}" -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
 
 # Move the backup file to the target directory
 mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
