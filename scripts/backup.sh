@@ -20,8 +20,7 @@ hostname=$(hostname)
 backup_filename="backup_${hostname}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
 
 # Create the backup file in the temporary directory
-tar --create --gzip --file="${tmpdir}/${backup_filename}" --checkpoint=1 \
-    --checkpoint-action='echo="Progress: %{}T"' "${srcdir}"
+tar cf - "${srcdir}" -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
 
 # Move the backup file to the target directory
 mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
