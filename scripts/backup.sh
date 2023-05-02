@@ -33,7 +33,7 @@ crontab -l > "${crontab_file}"
 tar cf - -C "${srcdir}" "." -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') > "${tmpdir}/${backup_filename}.tar"
 tar -C "${tmpdir}" -uf "${tmpdir}/${backup_filename}" ${crontab_file} ${etc_env_dump}
 
-gzip "${tmpdir}/${backup_filename}.tar.gz"
+gzip "${tmpdir}/${backup_filename}.tar"
 
 # Move the backup file to the target directory
 mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
