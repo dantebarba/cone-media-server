@@ -42,4 +42,4 @@ mv "${tmpdir}/${backup_filename}.tar.gz" "${tgtdir}/"
 rm -rf "${tmpdir}"
 
 # Print a message indicating that the backup was successful
-echo "Backup created at ${tgtdir}/${backup_filename}"
+echo "Backup created at ${tgtdir}/${backup_filename}.tar.gz"
