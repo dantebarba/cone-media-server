@@ -31,7 +31,7 @@ crontab -l > "${crontab_file}"
 
 # Create the backup file in the temporary directory
 tar cf - -C "${srcdir}" "." -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') > "${tmpdir}/${backup_filename}.tar"
-tar -C "${tmpdir}" -uf "${tmpdir}/${backup_filename}" ${crontab_file} ${etc_env_dump}
+tar -C "${tmpdir}" -ufv "${tmpdir}/${backup_filename}" ${crontab_file} ${etc_env_dump}
 
 gzip "${tmpdir}/${backup_filename}.tar"
 
