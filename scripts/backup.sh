@@ -36,7 +36,7 @@ tar -C "${tmpdir}" -uf "${tmpdir}/${backup_filename}" ${crontab_file} ${etc_env_
 gzip "${tmpdir}/${backup_filename}.tar"
 
 # Move the backup file to the target directory
-mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
+mv "${tmpdir}/${backup_filename}.tar.gz" "${tgtdir}/"
 
 # Remove the temporary directory
 rm -rf "${tmpdir}"
