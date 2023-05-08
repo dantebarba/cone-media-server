@@ -12,6 +12,12 @@ fi
 srcdir="$1"
 tgtdir="$2"
 
+# Check if the target directory exists
+if [ ! -d "${tgtdir}" ]; then
+  echo "Error: target directory ${tgtdir} does not exist."
+  exit 1
+fi
+
 # Create a temporary directory for the backup
 tmpdir=$(mktemp -d)
 
