@@ -19,7 +19,7 @@ tmpdir=$(mktemp -d)
 hostname=$(hostname)
 
 # Create the backup filename using the hostname and current date
-backup_filename="${hostname}_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
+backup_filename="${hostname}_$(date +%Y-%m-%d_%H-%M-%S)"
 
 # Create a dump of /etc/environment
 etc_env_dump="${tmpdir}/etc_environment_dump.txt"
@@ -30,13 +30,16 @@ crontab_file="${tmpdir}/crontab.txt"
 crontab -l > "${crontab_file}"
 
 # Create the backup file in the temporary directory
-tar cf - "${srcdir}" -P --add-file="${etc_env_dump}" --add-file="${crontab_file}" | pv -s $(du -sb "${srcdir}" | awk '{print $1}') | gzip > "${tmpdir}/${backup_filename}"
+tar cf - -C "${srcdir}" "." -P | pv -s $(du -sb "${srcdir}" | awk '{print $1}') > "${tmpdir}/${backup_filename}.tar"
+tar -rvf "${tmpdir}/${backup_filename}.tar" -C "${tmpdir}" $(basename ${crontab_file}) $(basename ${etc_env_dump})
+
+gzip "${tmpdir}/${backup_filename}.tar"
 
 # Move the backup file to the target directory
-mv "${tmpdir}/${backup_filename}" "${tgtdir}/"
+mv "${tmpdir}/${backup_filename}.tar.gz" "${tgtdir}/"
 
 # Remove the temporary directory
 rm -rf "${tmpdir}"
 
 # Print a message indicating that the backup was successful
-echo "Backup created at ${tgtdir}/${backup_filename}"
+echo "Backup created at ${tgtdir}/${backup_filename}.tar.gz"

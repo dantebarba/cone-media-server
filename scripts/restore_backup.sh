@@ -18,14 +18,6 @@ tmpdir=$(mktemp -d)
 # Extract the backup file to the temporary directory
 tar --extract --gzip --file="$backup_file" --directory="$tmpdir"
 
-# Restore /etc/environment
-etc_env_dump="${tmpdir}/etc_environment_dump.txt"
-cat ${etc_env_dump} > /etc/environment
-
-# Restore crontab
-crontab_file="${tmpdir}/crontab.txt"
-crontab "$crontab_file"
-
 # Restore the source directory
 srcdir_basename=$(basename "$srcdir")
 srcdir_tmpdir="${tmpdir}/${srcdir_basename}"
