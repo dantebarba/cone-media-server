@@ -22,13 +22,26 @@ done
 /usr/bin/apt-get autoremove -y
 /usr/bin/apt-get --purge autoremove -y
 /usr/bin/apt-get clean
+/usr/bin/deborphan | /usr/bin/xargs /usr/bin/apt-get -y remove --purge
+/usr/sbin/swapoff -a && /usr/sbin/swapon -a
 
 # tmp cleaning
-find /tmp -type f -atime +7 -delete
+/usr/bin/find /tmp -type f -atime +7 -delete
 
 # mem cleaning
 /sbin/sysctl -w vm.drop_caches=3
 /bin/sync && /bin/echo 3 | /usr/bin/tee /proc/sys/vm/drop_caches
+
+# TCP config
+/usr/sbin/sysctl -w net.core.rmem_max=10485760 net.core.wmem_max=10485760 net.ipv4.tcp_rmem='4096 87380 10485760' net.ipv4.tcp_wmem='4096 87380 10485760'
+/usr/sbin/sysctl -w net.ipv4.tcp_fastopen=3
+/usr/sbin/sysctl -w net.ipv4.tcp_window_scaling=1
+/usr/sbin/sysctl -w net.ipv4.tcp_timestamps=1
+/usr/sbin/sysctl -w net.ipv4.tcp_sack=0
+/usr/sbin/sysctl -w net.ipv4.tcp_no_metrics_save=1
+
+# flush TCP
+/usr/sbin/sysctl -w net.ipv4.route.flush=1
 
 # logs cleaning
 /usr/bin/echo "INFO: Removing log files and junk files"
