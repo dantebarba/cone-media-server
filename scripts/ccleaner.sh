@@ -37,20 +37,22 @@ find /tmp -type f -atime +7 -delete
 /usr/bin/rm -rf /root/docker/plex/Library/Application\ Support/Plex\ Media\ Server/Cache/PhotoTranscoder/*
 /usr/bin/rm -rf /root/docker/plex/Library/Application\ Support/Plex\ Media\ Server/Codecs/*
 
-# backup data if requested
-if [ "$backup" = "Y" ]; then
-    # do backup
-    /usr/bin/echo "INFO: Backing up data..."
-    /root/cone-media-server/scripts/backup.sh $STORAGE_LOCATION /mnt/gdrive/backups
-else
-    # don't do backup
-    /usr/bin/echo "INFO: Skipping backup..."
-fi
-
 # node restart
 /usr/bin/echo "INFO: Restarting virtual storage"
 /usr/bin/docker start $(/usr/bin/docker ps -aq --filter 'label=com.docker.compose.project=plexdrive')
 /usr/bin/echo "INFO: Waiting 15s for virtual storage startup"
 /usr/bin/sleep 15s
+
+# backup data if requested
+if [ "$backup" = "Y" ]; then
+    # do backup
+    /usr/bin/echo "INFO: Backing up data..."
+    /root/cone-media-server/scripts/backup.sh $STORAGE_LOCATION /mnt/gdrive/backups
+    /usr/bin/echo "INFO: Backup complete..."
+else
+    # don't do backup
+    /usr/bin/echo "INFO: Skipping backup..."
+fi
+
 /usr/bin/echo "INFO: Restarting all containers"
 /usr/bin/docker start $(/usr/bin/comm -2 -3 <(/usr/bin/docker ps -aq | /usr/bin/sort) <(/usr/bin/docker ps -aq --filter 'label=com.docker.compose.project=plexdrive' | /usr/bin/sort))
