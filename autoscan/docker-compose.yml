@@ -16,7 +16,7 @@ services:
       - autoscan-adapter
 
   autoscan-adapter:
-    image: dantebarba/autoscan-adapter:latest
+    image: dantebarba/autoscan-adapter:0.1.1
     container_name: autoscan-adapter
     restart: unless-stopped
     environment:
